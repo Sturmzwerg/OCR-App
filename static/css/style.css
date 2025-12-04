@@ -14,6 +14,7 @@ body, html {
 body.light-mode {
     background-color: #f0f0f0;
     color: #333;
+    font-family: sans-serif;
 }
 
 #container {
@@ -28,6 +29,12 @@ body.light-mode {
 }
 
 /* Editor */
+#network {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+}
+
 #editor-panel {
     position: absolute;
     top: 20px;
@@ -36,6 +43,9 @@ body.light-mode {
     height: calc(100% - 60px);
     background-color: rgba(30, 30, 30, 0.95);
     box-shadow: -2px 0 10px rgba(0,0,0,0.5);
+    height: calc(100% - 40px);
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -371,4 +381,8 @@ body.light-mode #api-key-input {
     color: #888;
     margin-top: -5px;
     margin-bottom: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
