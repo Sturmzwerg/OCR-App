@@ -3,66 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Note Network</title>
-    <!-- Use 3d-force-graph -->
-    <script src="https://unpkg.com/3d-force-graph"></script>
+    <title>Note Network</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div id="container">
-        <div id="graph-3d"></div>
-
-        <!-- Editor Panel -->
+        <div id="network"></div>
         <div id="editor-panel" class="hidden">
             <div class="editor-header">
-                <div class="title-group">
-                    <input type="color" id="note-color" value="#44aaff" title="Note Color">
-                    <h2 id="note-title">Title</h2>
-                </div>
-                <button id="close-editor"><i class="fas fa-times"></i></button>
+                <h2 id="note-title">Title</h2>
+                <button id="close-editor">X</button>
             </div>
-
-            <div class="editor-meta">
-                <label for="note-cloud">Cloud:</label>
-                <select id="note-cloud">
-                    <option value="">None</option>
-                    <!-- Populated by JS -->
-                </select>
-            </div>
-
             <textarea id="note-content" placeholder="Write your note here... Use [[Link]] to link to other notes."></textarea>
             <button id="save-note">Save</button>
         </div>
     </div>
-
-    <!-- Controls / Overlay -->
-    <div id="top-controls">
-        <button id="settings-btn" title="Settings"><i class="fas fa-cog"></i></button>
-    </div>
-
     <div id="controls">
         <input type="text" id="new-note-title" placeholder="New Note Title">
         <button id="add-note-btn">Add Note</button>
-    </div>
-
-    <!-- Settings Modal/Overlay -->
-    <div id="settings-overlay" class="hidden">
-        <div class="settings-content">
-            <h3>Settings</h3>
-            <div class="settings-section">
-                <h4>Clouds</h4>
-                <ul id="cloud-list">
-                    <!-- List of clouds -->
-                </ul>
-                <div class="add-cloud-row">
-                    <input type="text" id="new-cloud-name" placeholder="New Cloud Name">
-                    <button id="add-cloud-btn">Add</button>
-                </div>
-            </div>
-            <button id="close-settings">Close</button>
-        </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
