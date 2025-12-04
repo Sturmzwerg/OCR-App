@@ -4,6 +4,16 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #000;
+    color: #eee;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light Mode Variables */
+body.light-mode {
+    background-color: #f0f0f0;
+    color: #333;
     font-family: sans-serif;
 }
 
@@ -13,6 +23,12 @@ body, html {
     position: relative;
 }
 
+#graph-3d {
+    width: 100%;
+    height: 100%;
+}
+
+/* Editor */
 #network {
     width: 100%;
     height: 100%;
@@ -24,6 +40,9 @@ body, html {
     top: 20px;
     right: 20px;
     width: 400px;
+    height: calc(100% - 60px);
+    background-color: rgba(30, 30, 30, 0.95);
+    box-shadow: -2px 0 10px rgba(0,0,0,0.5);
     height: calc(100% - 40px);
     background-color: white;
     box-shadow: -2px 0 5px rgba(0,0,0,0.2);
@@ -31,6 +50,15 @@ body, html {
     display: flex;
     flex-direction: column;
     z-index: 10;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    color: white;
+}
+
+body.light-mode #editor-panel {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #333;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
 }
 
 #editor-panel.hidden {
@@ -44,18 +72,315 @@ body, html {
     margin-bottom: 10px;
 }
 
+.title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#note-color {
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+}
+
+.editor-meta {
+    margin-bottom: 15px;
+}
+
+#note-cloud {
+    background: #333;
+    color: white;
+    border: 1px solid #555;
+    padding: 5px;
+    border-radius: 4px;
+    width: 100%;
+}
+
+body.light-mode #note-cloud {
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
 #note-content {
     flex-grow: 1;
     resize: none;
     margin-bottom: 10px;
     padding: 10px;
     font-size: 16px;
+    background: #222;
+    color: #ddd;
+    border: 1px solid #444;
+    border-radius: 4px;
+}
+
+body.light-mode #note-content {
+    background: #fff;
+    color: #333;
+    border: 1px solid #ccc;
 }
 
 #controls {
     position: absolute;
     bottom: 20px;
     left: 20px;
+    background: rgba(30, 30, 30, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    display: flex;
+    gap: 5px;
+}
+
+body.light-mode #controls {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+#new-note-title {
+    background: #222;
+    border: 1px solid #444;
+    color: white;
+    padding: 5px;
+}
+
+body.light-mode #new-note-title {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+/* Top Controls */
+#top-controls {
+    position: absolute;
+    top: 20px;
+    right: 440px;
+    z-index: 5;
+}
+
+#settings-btn, #add-note-btn, #save-note, #add-cloud-btn, #save-api-btn {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+body.light-mode #settings-btn,
+body.light-mode #add-note-btn,
+body.light-mode #save-note,
+body.light-mode #add-cloud-btn,
+body.light-mode #save-api-btn {
+    background: #ddd;
+    color: #333;
+}
+
+#settings-btn:hover, #add-note-btn:hover {
+    background: #555;
+}
+
+#close-editor, #close-settings {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Settings Modal */
+#settings-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+#settings-overlay.hidden {
+    display: none;
+}
+
+.settings-modal {
+    background: #222;
+    width: 600px;
+    height: 400px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body.light-mode .settings-modal {
+    background: #fff;
+    color: #333;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.settings-header {
+    padding: 15px 20px;
+    background: #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+body.light-mode .settings-header {
+    background: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+}
+
+.settings-header h3 {
+    margin: 0;
+}
+
+.settings-body {
+    display: flex;
+    flex: 1;
+}
+
+.settings-sidebar {
+    width: 150px;
+    background: #1e1e1e;
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+}
+
+body.light-mode .settings-sidebar {
+    background: #f4f4f4;
+    border-right: 1px solid #ddd;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    padding: 15px;
+    text-align: left;
+    cursor: pointer;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+body.light-mode .tab-btn {
+    color: #666;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tab-btn:hover {
+    background: #2a2a2a;
+    color: white;
+}
+
+body.light-mode .tab-btn:hover {
+    background: #e0e0e0;
+    color: #000;
+}
+
+.tab-btn.active {
+    background: #333;
+    color: #44aaff;
+    font-weight: bold;
+    border-left: 3px solid #44aaff;
+}
+
+body.light-mode .tab-btn.active {
+    background: #fff;
+    color: #0077cc;
+    border-left: 3px solid #0077cc;
+}
+
+.settings-content-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Tab Specifics */
+#cloud-list {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+body.light-mode #cloud-list {
+    border: 1px solid #ddd;
+}
+
+#cloud-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-bottom: 1px solid #333;
+}
+
+body.light-mode #cloud-list li {
+    border-bottom: 1px solid #eee;
+}
+
+.add-cloud-row {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+#new-cloud-name, #api-key-input {
+    flex: 1;
+    background: #333;
+    border: 1px solid #444;
+    color: white;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+body.light-mode #new-cloud-name,
+body.light-mode #api-key-input {
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group.row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hint {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: -5px;
+    margin-bottom: 15px;
     background: white;
     padding: 10px;
     border-radius: 5px;
